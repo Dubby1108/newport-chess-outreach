@@ -1,0 +1,9 @@
+{
+  "name": "newport-chess-outreach-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Newport Chess Outreach website — Stripe payments via Netlify Functions, registration storage via Google Sheets.",
+  "dependencies": {
+    "stripe": "^16.0.0"
+  }
+}

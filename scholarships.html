@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scholarship Application — Newport Chess Outreach</title>
+<meta name="description" content="Apply for a need-based scholarship to attend a Newport Chess Outreach camp, tournament, or workshop.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="index.html">
+      <span class="logo-mark" aria-hidden="true">
+        <img src="logo.png" alt="Campers playing chess" class="hero-banner" style="width:100%;height:100%;object-fit:cover;border: 0;">       </span>
+      Newport Chess Outreach
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="events.html">Events &amp; Camps</a></li>
+      <li><a href="scholarships.html" class="active">Scholarships</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a class="btn btn-outline on-light btn-sm" href="contact.html">Volunteer</a>
+      <a class="btn btn-primary btn-sm" href="contact.html#donate">Donate</a>
+    </div>
+    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </nav>
+  <div class="mobile-menu">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="events.html">Events &amp; Camps</a>
+    <a href="scholarships.html">Scholarships</a>
+    <a href="contact.html">Contact</a>
+    <a class="btn btn-primary" href="contact.html#donate">Donate</a>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow on-dark">Scholarships</span>
+      <h1>Scholarship Application</h1>
+      <p class="lede">Cost should never be the reason a child misses out on chess. If a registration fee is a barrier for your family, please apply below — every application is reviewed individually and confidentially by our scholarship committee.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container" style="max-width:760px;">
+
+      <div class="config-note" style="margin-bottom:2.5rem;">
+        Your responses are confidential and are reviewed only by the Newport Chess Outreach scholarship committee for the purpose of awarding aid. The demographic questions further down (race/ethnicity, home language, and immigration status) are entirely <strong>optional</strong> and are never used to decide who receives a scholarship — we ask only to help us report our community impact to the funders who make this fund possible. Skip any optional question you'd rather not answer.
+      </div>
+
+      <form id="scholarship-form">
+        <p hidden>
+          <label for="companyWebsite">Leave this field blank</label>
+          <input type="text" id="companyWebsite" name="companyWebsite" autocomplete="off" tabindex="-1">
+        </p>
+
+        <fieldset>
+          <legend>About You (Parent / Guardian, or Applicant if 18+)</legend>
+          <div class="field">
+            <label for="applicantRelationship">Your relationship to the participant</label>
+            <select id="applicantRelationship" name="applicantRelationship" required>
+              <option value="" disabled selected>Select one</option>
+              <option value="Parent or Guardian">Parent or Guardian</option>
+              <option value="Self (18 or older)">Self (18 or older)</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="field-row cols-2">
+            <div class="field"><label for="applicantFirstName">First name</label><input type="text" id="applicantFirstName" name="applicantFirstName" required></div>
+            <div class="field"><label for="applicantLastName">Last name</label><input type="text" id="applicantLastName" name="applicantLastName" required></div>
+          </div>
+          <div class="field-row cols-2">
+            <div class="field"><label for="applicantEmail">Email address</label><input type="email" id="applicantEmail" name="applicantEmail" required></div>
+            <div class="field"><label for="applicantPhone">Phone number</label><input type="tel" id="applicantPhone" name="applicantPhone" required></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Program &amp; Participant</legend>
+          <div class="field">
+            <label for="scholarshipProgram">Which program are you requesting a scholarship for?</label>
+            <select id="scholarshipProgram" name="program" required>
+              <option value="" disabled selected>Select a program</option>
+            </select>
+            <p class="hint">Don't see it listed? Choose the closest option and tell us more in the notes field below.</p>
+          </div>
+          <div class="field-row cols-2">
+            <div class="field"><label for="participantFirstName">Participant first name</label><input type="text" id="participantFirstName" name="participantFirstName" required></div>
+            <div class="field"><label for="participantLastName">Participant last name</label><input type="text" id="participantLastName" name="participantLastName" required></div>
+          </div>
+          <div class="field-row cols-2">
+            <div class="field"><label for="participantAgeGrade">Participant age or grade level</label><input type="text" id="participantAgeGrade" name="participantAgeGrade" placeholder="e.g. 9 years old / 4th grade" required></div>
+            <div class="field"><label for="participantSchool">School <span style="font-weight:400;color:var(--ink-400);">(optional)</span></label><input type="text" id="participantSchool" name="participantSchool"></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Financial Need</legend>
+          <div class="field-row cols-2">
+            <div class="field"><label for="householdSize">Number of people in household</label><input type="number" inputmode="numeric" min="1" id="householdSize" name="householdSize" required></div>
+            <div class="field">
+              <label for="householdIncome">Approximate annual household income</label>
+              <select id="householdIncome" name="householdIncome" required>
+                <option value="" disabled selected>Select a range</option>
+                <option value="Under $25,000">Under $25,000</option>
+                <option value="$25,000–$49,999">$25,000–$49,999</option>
+                <option value="$50,000–$74,999">$50,000–$74,999</option>
+                <option value="$75,000–$99,999">$75,000–$99,999</option>
+                <option value="$100,000 or more">$100,000 or more</option>
+                <option value="Prefer not to say">Prefer not to say</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Does your household currently receive any of the following? <span style="font-weight:400;color:var(--ink-400);">(check all that apply, optional — this can help us process your request faster)</span></label>
+            <div class="checkbox-field"><input type="checkbox" id="assistSnap" name="publicAssistance" value="SNAP / EBT"><label for="assistSnap">SNAP / EBT</label></div>
+            <div class="checkbox-field"><input type="checkbox" id="assistMedicaid" name="publicAssistance" value="Medicaid / CHIP"><label for="assistMedicaid">Medicaid / CHIP</label></div>
+            <div class="checkbox-field"><input type="checkbox" id="assistLunch" name="publicAssistance" value="Free or Reduced School Lunch"><label for="assistLunch">Free or Reduced School Lunch</label></div>
+            <div class="checkbox-field"><input type="checkbox" id="assistTanf" name="publicAssistance" value="TANF"><label for="assistTanf">TANF</label></div>
+            <div class="checkbox-field"><input type="checkbox" id="assistHousing" name="publicAssistance" value="Housing Assistance / Section 8"><label for="assistHousing">Housing Assistance / Section 8</label></div>
+            <div class="checkbox-field"><input type="checkbox" id="assistWic" name="publicAssistance" value="WIC"><label for="assistWic">WIC</label></div>
+            <div class="checkbox-field"><input type="checkbox" id="assistNone" name="publicAssistance" value="None of the above"><label for="assistNone">None of the above</label></div>
+          </div>
+
+          <div class="field">
+            <label for="scholarshipAmount">How much support are you requesting?</label>
+            <select id="scholarshipAmount" name="scholarshipAmountRequested" required>
+              <option value="" disabled selected>Select one</option>
+              <option value="Full scholarship (100%)">Full scholarship (100%)</option>
+              <option value="Partial — about 75%">Partial — about 75%</option>
+              <option value="Partial — about 50%">Partial — about 50%</option>
+              <option value="Partial — about 25%">Partial — about 25%</option>
+              <option value="Other amount">Other amount (please specify below)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="scholarshipAmountOther">If "other amount," or for any additional context on the amount, let us know here <span style="font-weight:400;color:var(--ink-400);">(optional)</span></label>
+            <input type="text" id="scholarshipAmountOther" name="scholarshipAmountOther">
+          </div>
+
+          <div class="field">
+            <label for="financialNeedExplanation">Tell us about your family's financial situation and why this scholarship would make a difference</label>
+            <textarea id="financialNeedExplanation" name="financialNeedExplanation" required></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Demographic Information <span style="font-weight:400;color:var(--ink-400);">— optional, never used to decide eligibility</span></legend>
+          <div class="field">
+            <label>Race / ethnicity <span style="font-weight:400;color:var(--ink-400);">(check all that apply, optional)</span></label>
+            <div class="checkbox-field"><input type="checkbox" id="raceAian" name="raceEthnicity" value="American Indian or Alaska Native"><label for="raceAian">American Indian or Alaska Native</label></div>
+            <div class="checkbox-field"><input type="checkbox" id="raceAsian" name="raceEthnicity" value="Asian"><label for="raceAsian">Asian</label></div>
+            <div class="checkbox-field"><input type="checkbox" id="raceBlack" name="raceEthnicity" value="Black or African American"><label for="raceBlack">Black or African American</label></div>
+            <div class="checkbox-field"><input type="checkbox" id="raceHispanic" name="raceEthnicity" value="Hispanic, Latino, or Spanish Origin"><label for="raceHispanic">Hispanic, Latino, or Spanish Origin</label></div>
+            <div class="checkbox-field"><input type="checkbox" id="raceMena" name="raceEthnicity" value="Middle Eastern or North African"><label for="raceMena">Middle Eastern or North African</label></div>
+            <div class="checkbox-field"><input type="checkbox" id="raceNhpi" name="raceEthnicity" value="Native Hawaiian or Other Pacific Islander"><label for="raceNhpi">Native Hawaiian or Other Pacific Islander</label></div>
+            <div class="checkbox-field"><input type="checkbox" id="raceWhite" name="raceEthnicity" value="White"><label for="raceWhite">White</label></div>
+            <div class="checkbox-field"><input type="checkbox" id="raceTwo" name="raceEthnicity" value="Two or more races/ethnicities"><label for="raceTwo">Two or more races/ethnicities</label></div>
+            <div class="checkbox-field"><input type="checkbox" id="raceNone" name="raceEthnicity" value="Prefer not to say"><label for="raceNone">Prefer not to say</label></div>
+          </div>
+          <div class="field">
+            <label for="raceEthnicityOther">Another race or ethnicity not listed above <span style="font-weight:400;color:var(--ink-400);">(optional)</span></label>
+            <input type="text" id="raceEthnicityOther" name="raceEthnicityOther">
+          </div>
+          <div class="field-row cols-2">
+            <div class="field">
+              <label for="homeLanguage">Primary language spoken at home <span style="font-weight:400;color:var(--ink-400);">(optional)</span></label>
+              <input type="text" id="homeLanguage" name="homeLanguage">
+            </div>
+            <div class="field">
+              <label for="immigrationStatus">Immigration / citizenship status <span style="font-weight:400;color:var(--ink-400);">(optional)</span></label>
+              <select id="immigrationStatus" name="immigrationStatus">
+                <option value="Prefer not to say" selected>Prefer not to say</option>
+                <option value="U.S. citizen">U.S. citizen</option>
+                <option value="Permanent resident (Green Card holder)">Permanent resident (Green Card holder)</option>
+                <option value="Visa holder">Visa holder</option>
+                <option value="Refugee or asylee">Refugee or asylee</option>
+                <option value="DACA recipient">DACA recipient</option>
+                <option value="Undocumented">Undocumented</option>
+                <option value="Other / not listed">Other / not listed</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Additional Information</legend>
+          <div class="field-row cols-2">
+            <div class="field">
+              <label for="priorScholarship">Has your family received a scholarship from us before?</label>
+              <select id="priorScholarship" name="priorScholarship" required>
+                <option value="" disabled selected>Select one</option>
+                <option value="No — first time applying">No — first time applying</option>
+                <option value="Yes — previously received a scholarship">Yes — previously received a scholarship</option>
+                <option value="Not sure">Not sure</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="howHeard">How did you hear about this scholarship?</label>
+              <input type="text" id="howHeard" name="howHeard" placeholder="e.g. school, library, a friend">
+            </div>
+          </div>
+          <div class="field">
+            <label for="additionalComments">Anything else you'd like the scholarship committee to know? <span style="font-weight:400;color:var(--ink-400);">(optional)</span></label>
+            <textarea id="additionalComments" name="additionalComments"></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Certification</legend>
+          <div class="checkbox-field">
+            <input type="checkbox" id="certifyAccurate" name="certifyAccurate" required>
+            <label for="certifyAccurate">I certify that the information provided in this application is accurate to the best of my knowledge.</label>
+          </div>
+          <div class="checkbox-field">
+            <input type="checkbox" id="acknowledgeOptionalDemo" name="acknowledgeOptionalDemo" required>
+            <label for="acknowledgeOptionalDemo">I understand the demographic questions above are optional, confidential, and are not used to determine my eligibility for a scholarship.</label>
+          </div>
+        </fieldset>
+
+        <p id="scholarship-error" hidden style="color:var(--red-700);font-weight:600;margin-top:1rem;"></p>
+
+        <div class="wizard-actions" style="justify-content:flex-end;border-top:none;padding-top:0;">
+          <button type="submit" class="btn btn-gold" id="scholarship-submit">Submit Application</button>
+        </div>
+      </form>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+
+          Newport Chess Outreach
+        </a>
+        <p>Expanding access to chess education through camps, tournaments, and community outreach across Newport County.</p>
+        <div class="social-row">
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 9h2V6h-2c-1.7 0-3 1.3-3 3v2H9v3h2v7h3v-7h2.2l.8-3H14V9z"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.5"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor"/></svg></a>
+          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 10v7M7 7v.5M12 17v-4.5c0-1.4 1-2.5 2.5-2.5s2.5 1.1 2.5 2.5V17"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9 5 3-5 3V9z" fill="currentColor" stroke="none"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="events.html">Events &amp; Camps</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div>
+        <h4>Get Involved</h4>
+        <a href="contact.html#donate">Donate</a>
+        <a href="contact.html">Volunteer</a>
+        <a href="contact.html">Sponsor an Event</a>
+        <a href="events.html">Register for an Event</a>
+        <a href="scholarships.html">Apply for a Scholarship</a>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <a href="mailto:newportchessoutreach@outlook.com">newportchessoutreach@outlook.com<br><span style="font-size:0.72rem;opacity:0.7;">[placeholder email]</span></a>
+        <a href="tel:+14015550123">(401) 555-0123<br><span style="font-size:0.72rem;opacity:0.7;">[placeholder phone]</span></a>
+        <span style="display:block;padding:0.5rem 0;font-size:0.9rem;">Instagram: @newportchessoutreach<br><span style="font-size:0.72rem;opacity:0.7;">[placeholder address]</span></span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> Newport Chess Outreach. All rights reserved.</span>
+      <span>Newport Chess Outreach is a placeholder 501(c)(3) nonprofit organization. EIN: XX-XXXXXXX [placeholder].</span>
+    </div>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Event Details — Newport Chess Outreach</title>
+<meta name="description" content="Full details, schedule, FAQs, and registration for a Newport Chess Outreach event.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="index.html">
+      <span class="logo-mark" aria-hidden="true">
+        <img src="logo.png" alt="Campers playing chess" class="hero-banner" style="width:100%;height:100%;object-fit:cover;border: 0;">       </span>
+      Newport Chess Outreach
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="events.html" class="active">Events &amp; Camps</a></li>
+      <li><a href="scholarships.html">Scholarships</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a class="btn btn-outline on-light btn-sm" href="contact.html">Volunteer</a>
+      <a class="btn btn-primary btn-sm" href="contact.html#donate">Donate</a>
+    </div>
+    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </nav>
+  <div class="mobile-menu">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="events.html">Events &amp; Camps</a>
+    <a href="scholarships.html">Scholarships</a>
+    <a href="contact.html">Contact</a>
+    <a class="btn btn-primary" href="contact.html#donate">Donate</a>
+  </div>
+</header>
+
+<main id="main">
+  <div id="event-detail">
+
+    <section class="section" style="padding-bottom:0;">
+      <div class="container">
+        <p class="breadcrumb"><a href="events.html">Events &amp; Camps</a> / Event Details</p>
+        <span class="badge badge-red" id="ed-category">Category</span>
+        <h1 style="margin-top:0.75rem;" id="ed-title">Event Title</h1>
+        <div class="card-meta" style="margin-top:1.25rem;font-size:0.95rem;">
+          <span id="ed-date"></span>
+          <span id="ed-time"></span>
+          <span id="ed-location"></span>
+          <span id="ed-age"></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="grid" style="grid-template-columns:1fr;gap:3rem;max-width:1100px;">
+
+          <div class="placeholder ratio-16-9">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>
+            <span>Event Banner Photo</span>
+            <small>Replace with a photo from this event or a past session</small>
+          </div>
+
+          <div>
+            <h2>Full Description</h2>
+            <p id="ed-description" class="lede" style="max-width:none;"></p>
+          </div>
+
+          <div>
+            <h2>Schedule (Detailed Schedule in Attatchment) </h2>
+            <div class="table-wrap">
+              <table class="schedule-table">
+                <thead><tr><th>Time</th><th>Activity</th></tr></thead>
+                <tbody id="ed-schedule"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="grid grid-2">
+            <div>
+              <h3>Required Materials</h3>
+              <ul id="ed-materials" style="list-style:disc;padding-left:1.2rem;display:flex;flex-direction:column;gap:0.4rem;color:var(--ink-600);"></ul>
+            </div>
+            <div>
+              <h3>Refund Policy</h3>
+              <p id="ed-refund" style="color:var(--ink-600);"></p>
+            </div>
+          </div>
+
+          <div>
+            <h2>Frequently Asked Questions</h2>
+            <div id="ed-faqs"></div>
+          </div>
+
+          <div style="background:var(--paper-50);border:1px solid var(--line);border-radius:var(--radius-md);padding:2rem;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.25rem;">
+            <div>
+              <p style="font-size:0.85rem;color:var(--ink-400);margin-bottom:0.25rem;">Registration Fee</p>
+              <p style="font-family:var(--font-display);font-size:1.8rem;font-weight:700;color:var(--red-700);" id="ed-cost"></p>
+            </div>
+            <a class="btn btn-primary ed-register" href="register.html">Register Now</a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+
+          Newport Chess Outreach
+        </a>
+        <p>Expanding access to chess education through camps, tournaments, and community outreach across Newport County.</p>
+        <div class="social-row">
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 9h2V6h-2c-1.7 0-3 1.3-3 3v2H9v3h2v7h3v-7h2.2l.8-3H14V9z"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.5"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor"/></svg></a>
+          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 10v7M7 7v.5M12 17v-4.5c0-1.4 1-2.5 2.5-2.5s2.5 1.1 2.5 2.5V17"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9 5 3-5 3V9z" fill="currentColor" stroke="none"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="events.html">Events &amp; Camps</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div>
+        <h4>Get Involved</h4>
+        <a href="contact.html#donate">Donate</a>
+        <a href="contact.html">Volunteer</a>
+        <a href="contact.html">Sponsor an Event</a>
+        <a href="events.html">Register for an Event</a>
+        <a href="scholarships.html">Apply for a Scholarship</a>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <a href="mailto:newportchessoutreach@outlook.com">newportchessoutreach@outlook.com<br><span style="font-size:0.72rem;opacity:0.7;">[placeholder email]</span></a>
+        <a href="tel:+14015550123">(401) 555-0123<br><span style="font-size:0.72rem;opacity:0.7;">[placeholder phone]</span></a>
+        <span style="display:block;padding:0.5rem 0;font-size:0.9rem;">Instagram: @newportchessoutreach<br><span style="font-size:0.72rem;opacity:0.7;">[placeholder address]</span></span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> Newport Chess Outreach. All rights reserved.</span>
+      <span>Newport Chess Outreach is a placeholder 501(c)(3) nonprofit organization. EIN: XX-XXXXXXX [placeholder].</span>
+    </div>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
