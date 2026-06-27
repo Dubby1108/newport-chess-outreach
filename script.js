@@ -383,35 +383,62 @@ function initWizard() {
     document.querySelectorAll(".reg-event-date").forEach(el => el.textContent = event.date);
   }
 
-  if (!isCamp) {
+  // Show or hide a whole camp-only panel/step (Guardian, Emergency,
+  // Waivers). Hiding also disables every field inside so it's skipped
+  // during validation and excluded from the submitted form data; showing
+  // only re-enables fields and leaves each one's own `required` attribute
+  // exactly as authored in the markup, since these panels mix required
+  // and optional fields and shouldn't be forced to a single state.
+  function setCampOnlyVisible(el, visible) {
+    el.hidden = !visible;
+    // Setting style.display directly (in addition to the `hidden`
+    // attribute) guarantees the panel is actually hidden even if a CSS
+    // rule elsewhere has the same specificity as the browser's default
+    // `[hidden] { display: none }` rule and would otherwise win and
+    // leave it visible.
+    el.style.display = visible ? "" : "none";
+    el.querySelectorAll("input, select, textarea").forEach(f => {
+      f.disabled = !visible;
+      if (!visible) f.required = false;
+    });
+  }
+
+  // Show or hide a single field-row inside the Participant step (grade/
+  // school, or email/phone), where every field in the row should share
+  // the same required-ness. Same style.display guard as above.
+  function setFieldRowVisible(el, visible, requiredWhenVisible = false) {
+    el.hidden = !visible;
+    el.style.display = visible ? "" : "none";
+    el.querySelectorAll("input, select, textarea").forEach(f => {
+      f.disabled = !visible;
+      f.required = visible && requiredWhenVisible;
+    });
+  }
+
+  if (isCamp) {
+    // Camps: the parent/guardian (Step 1) is the point of contact, so
+    // the participant doesn't need their own email/phone, and grade/
+    // school are entered once, directly, as required fields.
+    wizard.querySelectorAll('[data-camp-only="true"]').forEach(el => setCampOnlyVisible(el, true));
+    wizard.querySelectorAll('[data-camp-field="true"]').forEach(el => setFieldRowVisible(el, true, true));
+    wizard.querySelectorAll('[data-noncamp-field="true"]').forEach(el => setFieldRowVisible(el, false));
+    wizard.querySelectorAll('[data-noncamp-school-field="true"]').forEach(el => setFieldRowVisible(el, false));
+  } else {
     // Hide the camp-only steps (Guardian, Emergency, Waivers) and their
     // progress dots, and disable their fields so they're skipped during
     // validation and excluded from the submitted form data entirely.
-    wizard.querySelectorAll('[data-camp-only="true"]').forEach(el => {
-      el.hidden = true;
-      el.querySelectorAll("input, select, textarea").forEach(f => {
-        f.disabled = true;
-        f.required = false;
-      });
-    });
+    wizard.querySelectorAll('[data-camp-only="true"]').forEach(el => setCampOnlyVisible(el, false));
     // Camp-specific fields inside the Participant step (grade/school)
     // get the same treatment.
-    wizard.querySelectorAll('[data-camp-field="true"]').forEach(el => {
-      el.hidden = true;
-      el.querySelectorAll("input, select, textarea").forEach(f => {
-        f.disabled = true;
-        f.required = false;
-      });
-    });
+    wizard.querySelectorAll('[data-camp-field="true"]').forEach(el => setFieldRowVisible(el, false));
+    // For non-camp events, show an optional grade/school row so players
+    // can still provide that info if they want to. These stay optional
+    // (no required flag) for non-camp events.
+    wizard.querySelectorAll('[data-noncamp-school-field="true"]').forEach(el => setFieldRowVisible(el, true));
     // With no guardian step, the participant becomes the point of
-    // contact — reveal an email/phone row on the Participant step.
-    wizard.querySelectorAll('[data-noncamp-field="true"]').forEach(el => {
-      el.hidden = false;
-      el.querySelectorAll("input, select, textarea").forEach(f => {
-        f.disabled = false;
-        f.required = true;
-      });
-    });
+    // contact — reveal an email/phone row on the Participant step,
+    // and alias it to parentEmail/parentPhone in the payload later.
+    wizard.querySelectorAll('[data-noncamp-field="true"]').forEach(el => setFieldRowVisible(el, true, true));
     const legend = wizard.querySelector("#participant-legend");
     if (legend) legend.textContent = "Participant Information";
   }
@@ -487,6 +514,32 @@ function initWizard() {
       // Disabled fields (camp-only steps, on a non-camp registration)
       // are automatically omitted from FormData — nothing else to do.
       new FormData(form).forEach((value, key) => { payload[key] = value; });
+      // Normalize grade/school: non-camp uses differently-named fields
+      // (gradeLevelNonCamp / schoolNonCamp) so the backend always sees
+      // a consistent gradeLevel and school key regardless of event type.
+      if (!isCamp) {
+        if (payload.gradeLevelNonCamp !== undefined) {
+          payload.gradeLevel = payload.gradeLevelNonCamp;
+          delete payload.gradeLevelNonCamp;
+        }
+        if (payload.schoolNonCamp !== undefined) {
+          payload.school = payload.schoolNonCamp;
+          delete payload.schoolNonCamp;
+        }
+        // For non-camp events the participant fills in their own contact
+        // details. Alias that email to parentEmail so Stripe processing
+        // always has a consistent field name to work with, whether the
+        // registration came from a camp (where the parent's email is
+        // collected in Step 1) or any other event type.
+        if (payload.participantEmail) {
+          payload.parentEmail = payload.participantEmail;
+          delete payload.participantEmail;
+        }
+        if (payload.participantPhone) {
+          payload.parentPhone = payload.participantPhone;
+          delete payload.participantPhone;
+        }
+      }
       // Checkboxes are omitted from FormData when unchecked — record
       // them explicitly, but only for camps, where the waiver fields
       // actually exist on the page and are enabled.

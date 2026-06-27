@@ -123,13 +123,17 @@
                 <div class="field"><label for="participantFirstName">First name</label><input type="text" id="participantFirstName" name="participantFirstName" required></div>
                 <div class="field"><label for="participantLastName">Last name</label><input type="text" id="participantLastName" name="participantLastName" required></div>
               </div>
-              <div class="field-row cols-2" data-noncamp-field="true" hidden>
-                <div class="field"><label for="participantEmail">Email address </label><input type="email" id="participantEmail" name="participantEmail"></div>
-                <div class="field"><label for="participantPhone">Phone number</label><input type="tel" id="participantPhone" name="participantPhone"></div>
+              <div class="field-row cols-2" data-noncamp-field="true" hidden style="display:none;">
+                <div class="field"><label for="participantEmail">Email address</label><input type="email" id="participantEmail" name="participantEmail" disabled></div>
+                <div class="field"><label for="participantPhone">Phone number</label><input type="tel" id="participantPhone" name="participantPhone" disabled></div>
               </div>
               <div class="field-row cols-2" data-camp-field="true">
                 <div class="field"><label for="gradeLevel">Grade level</label><input type="text" id="gradeLevel" name="gradeLevel" placeholder="e.g. 4th grade" required></div>
                 <div class="field"><label for="school">School</label><input type="text" id="school" name="school" required></div>
+              </div>
+              <div class="field-row cols-2" data-noncamp-school-field="true" hidden style="display:none;">
+                <div class="field"><label for="gradeLevelNonCamp">Grade level <span style="font-weight:400;color:var(--ink-400);">(optional)</span></label><input type="text" id="gradeLevelNonCamp" name="gradeLevelNonCamp" placeholder="e.g. 10th grade" disabled></div>
+                <div class="field"><label for="schoolNonCamp">School <span style="font-weight:400;color:var(--ink-400);">(optional)</span></label><input type="text" id="schoolNonCamp" name="schoolNonCamp" disabled></div>
               </div>
               <div class="field">
                 <label for="experienceLevel">Chess experience level</label>
@@ -139,6 +143,10 @@
                   <option value="Intermediate">Intermediate</option>
                   <option value="Advanced">Advanced</option>
                 </select>
+              </div>
+              <div class="field-row cols-2">
+                <div class="field"><label for="nwChessRating">Northwest Chess (NWSRS) rating <span style="font-weight:400;color:var(--ink-400);">(optional)</span></label><input type="number" id="nwChessRating" name="nwChessRating" min="0" max="3500" inputmode="numeric" placeholder="e.g. 1200"></div>
+                <div class="field"><label for="uscfRating">USCF rating <span style="font-weight:400;color:var(--ink-400);">(optional)</span></label><input type="number" id="uscfRating" name="uscfRating" min="0" max="3500" inputmode="numeric" placeholder="e.g. 1050"></div>
               </div>
               <div class="field"><label for="medicalConditions">Medical conditions <span style="font-weight:400;color:var(--ink-400);">(optional)</span></label><textarea id="medicalConditions" name="medicalConditions"></textarea></div>
               <div class="field"><label for="allergies">Allergies <span style="font-weight:400;color:var(--ink-400);">(optional)</span></label><textarea id="allergies" name="allergies"></textarea></div>
