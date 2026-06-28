@@ -1,77 +1,97 @@
 // netlify/functions/stripe-webhook.js
 // ----------------------------------------------------------------------------
-// Stripe calls this URL by itself, automatically, the moment a payment
-// actually succeeds — it's what flips a registration from "Pending" to
-// "Paid" in your Google Sheet, and what logs a completed donation. This is
-// more reliable than trusting the browser redirect alone, since a browser
-// redirect can be spoofed or interrupted but this server-to-server call
-// is verified with a signing secret.
+// Stripe calls this endpoint directly from its own servers the instant a
+// Checkout Session finishes — payment succeeded. This is the missing link
+// between "Stripe took the donor's money" and "a row shows up in the
+// Donations tab": nothing else in this project ever calls the Google Apps
+// Script web app for donations, so without this function the sheet update
+// simply never happens, no matter how many test donations you make.
 //
-// Setup (see SETUP.md):
-//   1. Deploy the site once so you have a live URL.
-//   2. In Stripe Dashboard → Developers → Webhooks, add an endpoint:
-//        https://YOUR-SITE-URL/.netlify/functions/stripe-webhook
-//      and select the "checkout.session.completed" event.
-//   3. Copy the "Signing secret" Stripe gives you into the
-//      STRIPE_WEBHOOK_SECRET environment variable in Netlify, then redeploy.
+// Unlike the success_url redirect (which only fires if the donor's browser
+// makes it back to your site), this runs server-to-server, so it still
+// records the donation even if they close the tab right after paying.
+//
+// ---- One-time setup (after this file is deployed) ----
+//   1. Stripe Dashboard → Developers → Webhooks → Add an endpoint.
+//   2. Endpoint URL: https://<your-site>/.netlify/functions/stripe-webhook
+//   3. Events to send: checkout.session.completed
+//   4. After creating it, Stripe shows a "Signing secret" starting with
+//      whsec_. Copy it into a Netlify environment variable named
+//      STRIPE_WEBHOOK_SECRET (Site settings → Environment variables).
 //
 // Required environment variables:
-//   STRIPE_SECRET_KEY
-//   STRIPE_WEBHOOK_SECRET
-//   SHEETS_WEB_APP_URL
+//   STRIPE_SECRET_KEY      (same one create-donation-session.js uses)
+//   STRIPE_WEBHOOK_SECRET  (from step 4 above)
+//   SHEETS_WEB_APP_URL     (the Google Apps Script Web App URL — see the
+//                           header comment in google-apps-script.js)
 // ----------------------------------------------------------------------------
 
 const Stripe = require("stripe");
 
 exports.handler = async (event) => {
+  if (event.httpMethod !== "POST") {
+    return { statusCode: 405, body: "Method Not Allowed" };
+  }
   if (!process.env.STRIPE_SECRET_KEY || !process.env.STRIPE_WEBHOOK_SECRET) {
-    return { statusCode: 500, body: "Webhook is not configured." };
+    console.error("Missing STRIPE_SECRET_KEY or STRIPE_WEBHOOK_SECRET env var.");
+    return { statusCode: 500, body: "Server is not configured." };
+  }
+  if (!process.env.SHEETS_WEB_APP_URL) {
+    console.error("Missing SHEETS_WEB_APP_URL env var.");
+    return { statusCode: 500, body: "Server is not configured." };
   }
 
   const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
-  const sig = event.headers["stripe-signature"];
-  const rawBody = event.isBase64Encoded ? Buffer.from(event.body, "base64") : event.body;
 
+  // Stripe signs the exact raw bytes it sent, so the signature must be
+  // checked against the untouched body — re-stringifying a parsed copy
+  // would change whitespace/key order and make verification fail.
   let stripeEvent;
   try {
-    stripeEvent = stripe.webhooks.constructEvent(rawBody, sig, process.env.STRIPE_WEBHOOK_SECRET);
+    const signature = event.headers["stripe-signature"] || event.headers["Stripe-Signature"];
+    const rawBody = event.isBase64Encoded ? Buffer.from(event.body, "base64") : event.body;
+    stripeEvent = stripe.webhooks.constructEvent(rawBody, signature, process.env.STRIPE_WEBHOOK_SECRET);
   } catch (err) {
-    return { statusCode: 400, body: `Webhook signature verification failed: ${err.message}` };
+    console.error("Webhook signature verification failed:", err.message);
+    return { statusCode: 400, body: "Invalid signature." };
   }
 
-  if (stripeEvent.type === "checkout.session.completed") {
-    const session = stripeEvent.data.object;
+  // Only donations are handled here. (Registration payments are recorded
+  // by submit-registration.js and aren't touched by this function — if
+  // you later want registration payment status updated by webhook too,
+  // that should dispatch on its own metadata, separately from this.)
+  if (stripeEvent.type !== "checkout.session.completed") {
+    return { statusCode: 200, body: JSON.stringify({ received: true }) };
+  }
 
-    try {
-      if (session.metadata && session.metadata.registrationId) {
-        await fetch(process.env.SHEETS_WEB_APP_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            action: "markPaid",
-            registrationId: session.metadata.registrationId,
-            stripeSessionId: session.id,
-            amountPaid: (session.amount_total / 100).toFixed(2)
-          })
-        });
-      } else if (session.metadata && session.metadata.type === "donation") {
-        await fetch(process.env.SHEETS_WEB_APP_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            action: "newDonation",
-            donorEmail: session.customer_details ? session.customer_details.email : "",
-            amount: (session.amount_total / 100).toFixed(2),
-            recurring: session.metadata.recurring === "true",
-            stripeSessionId: session.id
-          })
-        });
-      }
-    } catch (err) {
-      // The payment already succeeded either way — we just log this so it's
-      // not silently lost. Stripe will retry the webhook if we return non-200.
-      console.error("Sheet update failed:", err.message);
+  const session = stripeEvent.data.object;
+  if (!session.metadata || session.metadata.type !== "donation") {
+    return { statusCode: 200, body: JSON.stringify({ received: true }) };
+  }
+
+  try {
+    const donorEmail = (session.customer_details && session.customer_details.email) || session.customer_email || "";
+
+    const res = await fetch(process.env.SHEETS_WEB_APP_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        action: "newDonation",
+        donorEmail,
+        amount: ((session.amount_total || 0) / 100).toFixed(2),
+        recurring: session.metadata.recurring === "true",
+        stripeSessionId: session.id
+      })
+    });
+    const result = await res.json().catch(() => ({}));
+    if (!result.ok) {
+      throw new Error(result.error || "Google Sheets web app returned an error.");
     }
+  } catch (err) {
+    console.error("Failed to report donation to Google Sheets:", err);
+    // A 500 tells Stripe to automatically retry delivering this webhook
+    // later, instead of silently losing the donation record.
+    return { statusCode: 500, body: "Failed to record donation." };
   }
 
   return { statusCode: 200, body: JSON.stringify({ received: true }) };

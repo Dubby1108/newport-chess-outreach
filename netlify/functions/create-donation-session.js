@@ -58,7 +58,7 @@ exports.handler = async (event) => {
       customer_email: data.donorEmail || undefined,
       line_items: [{ price_data: priceData, quantity: 1 }],
       metadata: { type: "donation", recurring: String(recurring) },
-      success_url: `${siteUrl}/donate-success.html`,
+      success_url: `${siteUrl}/donate-success.html?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${siteUrl}/contact.html#donate`
     });
 
